@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:allowBackup="true"
+        android:label="Clínica Citas"
+        android:supportsRtl="true"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/Theme.ClinicaCitas">
+
+        
+<activity
+    android:name=".AppointmentDetailActivity"
+    android:exported="false" />
+
+<activity
+    android:name=".AppointmentsActivity"
+    android:exported="false" />
+
+<activity
+    android:name=".ReservarCitaActivity"
+    android:exported="false" />
+
+<activity
+    android:name=".DoctorDetailActivity"
+    android:exported="false" />
+
+<activity
+    android:name=".DoctorsActivity"
+    android:exported="false" />
+
+        <activity
+            android:name=".AdminHomeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".PacienteHomeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>
