@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Clínica Citas</string>
+
+    <string-array name="roles_array">
+        <item>Admin</item>
+        <item>Médico</item>
+        <item>Usuario</item>
+    </string-array>
+</resources>
