@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dra. Nombre Apellido"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvSpecialty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Especialidad" />
+
+    <TextView
+        android:id="@+id/tvRoom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Consultorio 101" />
+
+</LinearLayout>
