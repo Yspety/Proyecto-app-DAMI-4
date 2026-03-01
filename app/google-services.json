@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "709786477154",
+    "project_id": "clinicacitas-4cb50",
+    "storage_bucket": "clinicacitas-4cb50.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709786477154:android:700434af92b8727332e73b",
+        "android_client_info": {
+          "package_name": "com.cibertec.clinicacitas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqxxk2c37oAg1waVjVzMxPmizGVetKtn8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

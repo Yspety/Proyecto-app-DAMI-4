@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_medico_home"
+            android:icon="@android:drawable/ic_menu_today"
+            android:title="Mis Citas" />
+
+        <item
+            android:id="@+id/nav_medico_agenda"
+            android:icon="@android:drawable/ic_menu_month"
+            android:title="Mi Agenda de Guardia" />
+    </group>
+
+    <item android:title="Sesión">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@android:drawable/ic_lock_power_off"
+                android:title="Cerrar Sesión" />
+        </menu>
+    </item>
+</menu>

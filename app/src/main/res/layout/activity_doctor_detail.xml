@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F8F9FA">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,6 +14,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:titleTextColor="@android:color/white"
             app:navigationIcon="@android:drawable/ic_menu_revert"
             app:title="Detalle del médico" />
 
@@ -22,70 +25,54 @@
             android:orientation="vertical"
             android:padding="24dp">
 
+            <ImageView
+                android:id="@+id/ivDoctorPhotoDetail"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_doctor_default"
+                android:layout_marginBottom="16dp" />
+
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nombre"
-                android:textSize="20sp"
+                android:textSize="22sp"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="12dp" />
+            <View android:layout_width="match_parent" android:layout_height="16dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Especialidad" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Especialidad" android:textStyle="bold" android:textColor="?attr/colorPrimary"/>
+            <TextView android:id="@+id/tvSpecialty" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="-" android:textSize="16sp"/>
 
-            <TextView
-                android:id="@+id/tvSpecialty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="-" />
+            <View android:layout_width="match_parent" android:layout_height="12dp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="12dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="CMP" android:textStyle="bold" android:textColor="?attr/colorPrimary"/>
+            <TextView android:id="@+id/tvCmp" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="-" android:textSize="16sp"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="CMP" />
+            <View android:layout_width="match_parent" android:layout_height="12dp" />
 
-            <TextView
-                android:id="@+id/tvCmp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="-" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Consultorio" android:textStyle="bold" android:textColor="?attr/colorPrimary"/>
+            <TextView android:id="@+id/tvRoom" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="-" android:textSize="16sp"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="12dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Consultorio" />
-
-            <TextView
-                android:id="@+id/tvRoom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="-" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="24dp" />
+            <View android:layout_width="match_parent" android:layout_height="32dp" />
 
             <Button
                 android:id="@+id/btnReservar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Reservar cita" />
+                android:layout_height="55dp"
+                android:text="Acción"
+                android:textStyle="bold"
+                app:cornerRadius="8dp" />
 
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>

@@ -1,7 +1,7 @@
 package com.cibertec.clinicacitas.Entidades
 
 /**
- * Clase de datos diseñada para mostrar información combinada de citas en la UI.
+ * Clase unificada para mostrar información en la UI (Lista y Detalle).
  */
 data class AppointmentInfo(
     val appointmentId: Int,
@@ -9,5 +9,7 @@ data class AppointmentInfo(
     val time: String,
     val status: String,
     val doctorName: String,
-    val especialidadNombre: String
+    val especialidadNombre: String,
+    val patientName: String = "", // Agregado: opcional para la lista, obligatorio para detalle
+    val reason: String = ""       // Agregado: opcional para la lista, obligatorio para detalle
 )

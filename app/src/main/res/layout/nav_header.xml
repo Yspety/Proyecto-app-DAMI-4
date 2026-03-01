@@ -8,15 +8,25 @@
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:src="@android:drawable/ic_menu_info_details"
+        android:contentDescription="Icono Admin" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Administración"
+        android:text="Panel de Administración"
+        android:textStyle="bold"
+        android:textSize="18sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Clínica Citas" />
+        android:text="Sistema de Gestión Clínica"
+        android:alpha="0.8" />
 
 </LinearLayout>

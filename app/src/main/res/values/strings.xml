@@ -4,7 +4,6 @@
     <string-array name="roles_array">
         <item>Admin</item>
         <item>Médico</item>
-        <item>Usuario</item>
     </string-array>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

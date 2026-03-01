@@ -8,8 +8,6 @@ import com.cibertec.clinicacitas.DAO.AppointmentDAO
 import com.cibertec.clinicacitas.DAO.DoctorDAO
 import com.cibertec.clinicacitas.Entidades.AppointmentInfo
 import com.cibertec.clinicacitas.databinding.ActivityAppointmentsBinding
-
-// Import revertido
 import com.cibertec.clinicacitas.AppointmentAdapter
 
 class AppointmentsActivity : AppCompatActivity() {
@@ -29,33 +27,47 @@ class AppointmentsActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener { finish() }
 
         val mode = intent.getStringExtra(EXTRA_MODE)
+        val doctorIdFilter = intent.getIntExtra("FILTER_DOCTOR_ID", -1)
+        val patientIdFilter = intent.getIntExtra("FILTER_PATIENT_ID", -1)
+
+        val prefs = getSharedPreferences("session", MODE_PRIVATE)
+        val sessionUserId = prefs.getInt("userId", -1)
+
         var appointmentList = listOf<AppointmentInfo>()
 
         when (mode) {
             MODE_ADMIN -> {
-                binding.toolbar.title = "Todas las Citas"
-                appointmentList = appointmentDAO.getAllAppointmentInfo()
+                if (doctorIdFilter != -1) {
+                    val doc = doctorDAO.findDoctorById(doctorIdFilter)
+                    binding.toolbar.title = "Citas de: ${doc?.fullName ?: "Médico"}"
+                    appointmentList = appointmentDAO.getAppointmentInfoForDoctor(doctorIdFilter)
+                } else if (patientIdFilter != -1) {
+                    binding.toolbar.title = "Historial del Paciente"
+                    appointmentList = appointmentDAO.getAppointmentInfoForPatient(patientIdFilter)
+                } else {
+                    binding.toolbar.title = "Todas las Citas"
+                    appointmentList = appointmentDAO.getAllAppointmentInfo()
+                }
             }
             MODE_DOCTOR -> {
-                val doctorName = intent.getStringExtra(EXTRA_DOCTOR_NAME) ?: ""
-                binding.toolbar.title = "Citas para $doctorName"
-                val doctor = doctorDAO.findDoctorByName(doctorName)
+                // AQUÍ ESTABA EL ERROR: Necesitamos el ID del Doctor, no el del Usuario
+                val doctor = doctorDAO.findDoctorByUserId(sessionUserId)
                 if (doctor != null) {
+                    binding.toolbar.title = "Mis Pacientes"
                     appointmentList = appointmentDAO.getAppointmentInfoForDoctor(doctor.id)
                 }
             }
-            else -> { // MODE_PATIENT sigue usando FakeData por ahora
-                binding.toolbar.title = "Mis citas"
-                val patientName = SessionStore.currentUser?.username ?: "Paciente"
-                // Este es el único lugar que queda con FakeData.
-                // Se necesitará una lógica similar a la de admin/doctor para pacientes.
+            MODE_PATIENT -> {
+                binding.toolbar.title = "Mis Citas"
+                appointmentList = appointmentDAO.getAppointmentInfoForPatient(sessionUserId)
             }
         }
 
         val adapter = AppointmentAdapter(appointmentList) { appointmentId ->
-            startActivity(Intent(this, AppointmentDetailActivity::class.java).apply {
-                putExtra(AppointmentDetailActivity.EXTRA_APPOINTMENT_ID, appointmentId)
-            })
+            val intent = Intent(this, AppointmentDetailActivity::class.java)
+            // USAMOS LA CONSTANTE EXACTA PARA QUE COINCIDAN
+            intent.putExtra(AppointmentDetailActivity.EXTRA_APPOINTMENT_ID, appointmentId)
+            startActivity(intent)
         }
 
         binding.rvAppointments.layoutManager = LinearLayoutManager(this)
@@ -64,7 +76,6 @@ class AppointmentsActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_MODE = "extra_mode"
-        const val EXTRA_DOCTOR_NAME = "extra_doctor_name"
         const val MODE_PATIENT = "patient"
         const val MODE_ADMIN = "admin"
         const val MODE_DOCTOR = "doctor"

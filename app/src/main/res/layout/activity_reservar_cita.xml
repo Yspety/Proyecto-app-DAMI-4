@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F8F9FA">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,8 +14,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:titleTextColor="@color/white"
             app:navigationIcon="@android:drawable/ic_menu_revert"
-            app:title="Reservar cita" />
+            app:title="Finalizar Reserva" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,76 +25,121 @@
             android:orientation="vertical"
             android:padding="24dp">
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:background="#E3F2FD">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Médico Seleccionado:"
+                        android:textSize="12sp"
+                        android:textColor="#1976D2"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvDoctorResumen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dr. Cargando..."
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="4dp" />
+
+                    <TextView
+                        android:id="@+id/tvEspecialidadResumen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Especialidad"
+                        android:textSize="14sp"
+                        android:textColor="#555555" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Médico" />
-
-            <Spinner
-                android:id="@+id/spDoctor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Fecha (yyyy-MM-dd)" />
+                android:text="Fecha de la Cita"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/etDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="2026-02-05"
-                android:inputType="text" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="12dp" />
+                android:hint="Toque para seleccionar fecha"
+                android:focusable="false"
+                android:clickable="true"
+                android:inputType="none"
+                android:drawableStart="@android:drawable/ic_menu_today"
+                android:drawablePadding="12dp"
+                android:layout_marginTop="8dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hora (HH:mm)" />
+                android:layout_marginTop="16dp"
+                android:text="Hora"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/etTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="10:30"
-                android:inputType="text" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="12dp" />
+                android:hint="Toque para seleccionar hora"
+                android:focusable="false"
+                android:clickable="true"
+                android:inputType="none"
+                android:drawableStart="@android:drawable/ic_menu_recent_history"
+                android:drawablePadding="12dp"
+                android:layout_marginTop="8dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Motivo" />
+                android:layout_marginTop="16dp"
+                android:text="Motivo / Síntomas"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
 
-            <EditText
-                android:id="@+id/etReason"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ej: Control general"
-                android:inputType="textMultiLine"
-                android:minLines="3" />
+                android:layout_marginTop="8dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="24dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etReason"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Describa brevemente su malestar"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:minLines="4" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnGuardar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Guardar" />
+                android:layout_height="60dp"
+                android:text="CONFIRMAR RESERVA"
+                android:textSize="16sp"
+                android:layout_marginTop="32dp"
+                app:cornerRadius="8dp"
+                android:backgroundTint="#1976D2" />
 
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>

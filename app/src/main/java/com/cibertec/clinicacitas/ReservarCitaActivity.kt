@@ -1,5 +1,9 @@
 package com.cibertec.clinicacitas
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -15,6 +19,9 @@ class ReservarCitaActivity : AppCompatActivity() {
     private lateinit var doctorDAO: DoctorDAO
     private lateinit var appointmentDAO: AppointmentDAO
 
+    private var selectedDoctorId: Int = -1
+    private val calendar = Calendar.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityReservarCitaBinding.inflate(layoutInflater)
@@ -23,51 +30,89 @@ class ReservarCitaActivity : AppCompatActivity() {
         doctorDAO = DoctorDAO(this)
         appointmentDAO = AppointmentDAO(this)
 
-        binding.toolbar.title = "Reservar cita"
+        // 1. Configurar Toolbar
+        binding.toolbar.title = "Confirmar Reserva"
+        setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener { finish() }
 
-        val doctors = doctorDAO.getAllDoctorInfo()
-        val doctorNames = doctors.map { "${it.fullName} - ${it.especialidadNombre}" } // CORREGIDO
+        // 2. Obtener el ID del médico enviado y mostrar su info
+        selectedDoctorId = intent.getIntExtra(EXTRA_DOCTOR_ID, -1)
+        if (selectedDoctorId != -1) {
+            cargarDatosMedico(selectedDoctorId)
+        } else {
+            Toast.makeText(this, "Error: No se recibió información del médico", Toast.LENGTH_SHORT).show()
+            finish()
+        }
 
-        val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, doctorNames)
-        binding.spDoctor.adapter = spinnerAdapter
+        // 3. Configurar selectores visuales
+        setupDateTimePickers()
 
-        val doctorId = intent.getIntExtra(EXTRA_DOCTOR_ID, -1)
-        val preIndex = doctors.indexOfFirst { it.doctorId == doctorId }
-        if (preIndex >= 0) binding.spDoctor.setSelection(preIndex)
+        // 4. Botón guardar
+        binding.btnGuardar.setOnClickListener { registrarCita() }
+    }
 
-        binding.btnGuardar.setOnClickListener {
-            // Asumiendo que hay al menos un usuario logueado
-            val patient = SessionStore.currentUser?.username ?: "Paciente Anónimo"
-            val selectedDoctorInfo = doctors[binding.spDoctor.selectedItemPosition]
+    private fun cargarDatosMedico(id: Int) {
+        val doctorInfo = doctorDAO.getDoctorInfoById(id)
+        if (doctorInfo != null) {
+            binding.tvDoctorResumen.text = doctorInfo.fullName
+            binding.tvEspecialidadResumen.text = doctorInfo.especialidadNombre
+        }
+    }
 
-            val date = binding.etDate.text.toString().trim()
-            val time = binding.etTime.text.toString().trim()
-            val reason = binding.etReason.text.toString().trim()
+    private fun setupDateTimePickers() {
+        binding.etDate.setOnClickListener {
+            val datePicker = DatePickerDialog(this, { _, year, month, dayOfMonth ->
+                val selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
+                binding.etDate.setText(selectedDate)
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
 
-            if (date.isEmpty() || time.isEmpty() || reason.isEmpty()) {
-                Toast.makeText(this, "Completa fecha, hora y motivo.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            datePicker.datePicker.minDate = System.currentTimeMillis() - 1000
+            datePicker.show()
+        }
 
-            val newAppointment = Appointment(
-                id = 0, // El ID es autoincrementado
-                patientName = patient,
-                doctorId = selectedDoctorInfo.doctorId,
-                date = date,
-                time = time,
-                reason = reason,
-                status = "Programada"
-            )
+        binding.etTime.setOnClickListener {
+            val timePicker = TimePickerDialog(this, { _, hourOfDay, minute ->
+                val selectedTime = String.format("%02d:%02d", hourOfDay, minute)
+                binding.etTime.setText(selectedTime)
+            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
 
-            val result = appointmentDAO.addAppointment(newAppointment)
+            timePicker.show()
+        }
+    }
 
-            if (result > -1) {
-                Toast.makeText(this, "Cita registrada con éxito.", Toast.LENGTH_SHORT).show()
-                finish()
-            } else {
-                Toast.makeText(this, "Error al registrar la cita.", Toast.LENGTH_SHORT).show()
-            }
+    private fun registrarCita() {
+        val prefs = getSharedPreferences("session", MODE_PRIVATE)
+        val patientId = prefs.getInt("userId", -1)
+
+        val date = binding.etDate.text.toString().trim()
+        val time = binding.etTime.text.toString().trim()
+        val reason = binding.etReason.text.toString().trim()
+
+        if (date.isEmpty() || time.isEmpty() || reason.isEmpty()) {
+            Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val newAppointment = Appointment(
+            id = 0,
+            patientId = patientId,
+            doctorId = selectedDoctorId, // Usamos el ID guardado al inicio
+            date = date,
+            time = time,
+            reason = reason,
+            status = "Programada"
+        )
+
+        val result = appointmentDAO.addAppointment(newAppointment)
+        if (result > -1) {
+            Toast.makeText(this, "¡Cita reservada con éxito!", Toast.LENGTH_LONG).show()
+
+            val intent = Intent(this, PacienteHomeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
+            finish()
+        } else {
+            Toast.makeText(this, "Error al guardar la cita", Toast.LENGTH_SHORT).show()
         }
     }
 
