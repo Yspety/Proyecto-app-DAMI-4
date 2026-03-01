@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_my_appointments_doctor"
+            android:icon="@drawable/ic_citas"
+            android:title="Mis Citas" />
+        <item
+            android:id="@+id/nav_logout_doctor"
+            android:icon="@drawable/ic_cerrar"
+            android:title="Cerrar Sesión" />
+    </group>
+</menu>
