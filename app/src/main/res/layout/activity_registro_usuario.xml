@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    tools:context=".RegistroUsuarioActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvTituloRegistro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registro de Usuario"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:layout_marginBottom="24dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Datos Personales"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText android:id="@+id/etFullNameForm" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="Nombre Completo" />
+
+        <EditText android:id="@+id/etDniForm" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="DNI" android:inputType="number" android:maxLength="8"/>
+
+        <EditText android:id="@+id/etTelefonoForm" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="Celular" android:inputType="phone" android:maxLength="9"/>
+
+        <EditText
+            android:id="@+id/etFechaNacimiento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Fecha de Nacimiento"
+            android:focusable="false"
+            android:clickable="true"
+            android:drawableEnd="@android:drawable/ic_menu_my_calendar"
+            android:layout_marginBottom="12dp"/>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#DDDDDD" android:layout_marginVertical="16dp"/>
+
+        <LinearLayout
+            android:id="@+id/userFieldsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Credenciales de Acceso" android:textStyle="bold" android:textColor="?attr/colorPrimary" android:layout_marginBottom="8dp"/>
+
+            <EditText android:id="@+id/etEmailForm" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Email" android:inputType="textEmailAddress"/>
+            <EditText android:id="@+id/etUsernameFormRegistro" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Usuario" />
+            <EditText android:id="@+id/etPasswordFormRegistro" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Contraseña" android:inputType="textPassword" />
+
+            <Spinner android:id="@+id/spRol" android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/doctorFieldsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:background="#F0F0F0"
+            android:padding="12dp"
+            android:layout_marginTop="16dp">
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Información Médica" android:textStyle="bold" android:layout_marginBottom="8dp"/>
+            <EditText android:id="@+id/etCmp" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="CMP"/>
+            <EditText android:id="@+id/etRoom" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Consultorio"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Especialidad" android:textSize="12sp" android:layout_marginTop="8dp"/>
+            <Spinner android:id="@+id/spSpecialty" android:layout_width="match_parent" android:layout_height="48dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnGuardar"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="GUARDAR"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#2E7D32"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>
