@@ -1,4 +1,4 @@
-package com.cibertec.clinicacitas
+package com.cibertec.clinicacitas.UI_adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

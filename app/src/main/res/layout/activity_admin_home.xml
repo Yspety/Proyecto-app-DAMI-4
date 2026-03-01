@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".AdminHomeActivity"
+    tools:context=".UI.AdminHomeActivity"
     tools:openDrawer="start">
 
     <!-- Contenido Principal de la Pantalla -->

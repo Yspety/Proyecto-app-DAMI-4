@@ -1,5 +1,6 @@
-package com.cibertec.clinicacitas
+package com.cibertec.clinicacitas.UI
 
+import android.R
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -9,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.cibertec.clinicacitas.DAO.AppointmentDAO
 import com.cibertec.clinicacitas.DAO.DoctorDAO
 import com.cibertec.clinicacitas.Entidades.Appointment
+import com.cibertec.clinicacitas.Utils.SessionStore
+import com.cibertec.clinicacitas.Utils.NotificationUtils
 import com.cibertec.clinicacitas.databinding.ActivityReservarCitaBinding
 import java.util.Calendar
 
@@ -33,7 +36,7 @@ class ReservarCitaActivity : AppCompatActivity() {
         val doctors = doctorDAO.getAllDoctorInfo()
         val doctorNames = doctors.map { "${it.fullName} - ${it.especialidadNombre}" }
 
-        val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, doctorNames)
+        val spinnerAdapter = ArrayAdapter(this, R.layout.simple_spinner_dropdown_item, doctorNames)
         binding.spDoctor.adapter = spinnerAdapter
 
         val doctorId = intent.getIntExtra(EXTRA_DOCTOR_ID, -1)
@@ -56,19 +59,33 @@ class ReservarCitaActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Validar que la cita no sea en el pasado
+            if (selectedDateTime.timeInMillis <= System.currentTimeMillis()) {
+                Toast.makeText(this, "La fecha y hora deben ser futuras.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val newAppointment = Appointment(
                 id = 0,
                 patientName = patient,
                 doctorId = selectedDoctorInfo.doctorId,
-                dateTime = selectedDateTime.timeInMillis, // Guardamos el timestamp
+                dateTime = selectedDateTime.timeInMillis, 
                 reason = reason,
                 status = "Programada"
             )
 
-            val result = appointmentDAO.addAppointment(newAppointment)
+            val resultId = appointmentDAO.addAppointment(newAppointment)
 
-            if (result > -1) {
-                Toast.makeText(this, "Cita registrada con éxito.", Toast.LENGTH_SHORT).show()
+            if (resultId > -1) {
+                // Programar la notificación para 2 minutos antes
+                NotificationUtils.scheduleAppointmentNotification(
+                    this,
+                    resultId.toInt(),
+                    selectedDateTime.timeInMillis,
+                    selectedDoctorInfo.fullName
+                )
+
+                Toast.makeText(this, "Cita registrada con éxito. Se te notificará 2 minutos antes.", Toast.LENGTH_LONG).show()
                 finish()
             } else {
                 Toast.makeText(this, "Error al registrar la cita.", Toast.LENGTH_SHORT).show()
@@ -101,6 +118,8 @@ class ReservarCitaActivity : AppCompatActivity() {
         val timePickerDialog = TimePickerDialog(this, { _, selectedHour, selectedMinute ->
             selectedDateTime.set(Calendar.HOUR_OF_DAY, selectedHour)
             selectedDateTime.set(Calendar.MINUTE, selectedMinute)
+            selectedDateTime.set(Calendar.SECOND, 0)
+            selectedDateTime.set(Calendar.MILLISECOND, 0)
             val selectedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
             binding.etTime.setText(selectedTime)
         }, hour, minute, true)

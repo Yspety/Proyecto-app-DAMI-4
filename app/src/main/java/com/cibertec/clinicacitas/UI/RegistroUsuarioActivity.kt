@@ -1,4 +1,4 @@
-package com.cibertec.clinicacitas
+package com.cibertec.clinicacitas.UI
 
 import android.os.Bundle
 import android.view.View
@@ -12,6 +12,7 @@ import com.cibertec.clinicacitas.DAO.EspecialidadDAO
 import com.cibertec.clinicacitas.DAO.UsuarioDAO
 import com.cibertec.clinicacitas.Entidades.Doctor
 import com.cibertec.clinicacitas.Entidades.Especialidad
+import com.cibertec.clinicacitas.R
 import com.cibertec.clinicacitas.databinding.ActivityRegistroUsuarioBinding
 
 class RegistroUsuarioActivity : AppCompatActivity() {
@@ -74,7 +75,7 @@ class RegistroUsuarioActivity : AppCompatActivity() {
             return
         }
 
-        // CORRECCIÓN FINAL: Llamando al método correcto 'registrarUsuario' (con 'r' minúscula)
+        // CORRECCIÓN FINAL
         val newUserId = usuarioDAO.registrarUsuario(username, password, selectedRole)
 
         if (newUserId <= 0) {

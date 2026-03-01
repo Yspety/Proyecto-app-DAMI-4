@@ -1,4 +1,4 @@
-package com.cibertec.clinicacitas
+package com.cibertec.clinicacitas.UI
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,43 +10,30 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cibertec.clinicacitas.UI_adapter.AppointmentAdapter
 import com.cibertec.clinicacitas.DAO.AppointmentDAO
-import com.cibertec.clinicacitas.DAO.DoctorDAO
 import com.cibertec.clinicacitas.Entidades.AppointmentInfo
-import com.cibertec.clinicacitas.databinding.ActivityDoctorHomeBinding
+import com.cibertec.clinicacitas.R
+import com.cibertec.clinicacitas.Utils.SessionStore
+import com.cibertec.clinicacitas.databinding.ActivityPacienteHomeBinding
 import com.google.android.material.navigation.NavigationView
 
-class DoctorHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class PacienteHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var binding: ActivityDoctorHomeBinding
+    private lateinit var binding: ActivityPacienteHomeBinding
     private lateinit var appointmentDAO: AppointmentDAO
-    private lateinit var doctorDAO: DoctorDAO
-    private var currentDoctorId: Int? = null
+    private var currentPatientName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDoctorHomeBinding.inflate(layoutInflater)
+        binding = ActivityPacienteHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         appointmentDAO = AppointmentDAO(this)
-        doctorDAO = DoctorDAO(this)
-
-        val currentUserId = SessionStore.currentUser?.id
-        if (currentUserId == null) {
-            SessionStore.logout(this)
-            return
-        }
-
-        val doctor = doctorDAO.getDoctorByUserId(currentUserId)
-        if (doctor == null) {
-            Toast.makeText(this, "Error crítico: No se encontró el perfil de doctor.", Toast.LENGTH_LONG).show()
-            SessionStore.logout(this)
-            return
-        }
-        currentDoctorId = doctor.id
+        currentPatientName = SessionStore.currentUser?.username
 
         setSupportActionBar(binding.toolbar)
-        binding.toolbar.title = "Portal del Médico"
+        binding.toolbar.title = "Portal del Paciente"
 
         val toggle = ActionBarDrawerToggle(
             this, binding.drawerLayout, binding.toolbar,
@@ -81,20 +68,24 @@ class DoctorHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     private fun setupRecyclerView() {
-        if (currentDoctorId != null) {
-            val appointmentList = appointmentDAO.getAppointmentInfoForDoctor(currentDoctorId!!)
-            val adapter = AppointmentAdapter(appointmentList,
+        if (currentPatientName != null) {
+            val appointmentList = appointmentDAO.getAppointmentInfoForPatient(currentPatientName!!)
+            val adapter = AppointmentAdapter(
+                appointmentList,
                 onClick = { appointment ->
                     startActivity(Intent(this, AppointmentDetailActivity::class.java).apply {
-                        putExtra(AppointmentDetailActivity.EXTRA_APPOINTMENT_ID, appointment.appointmentId)
+                        putExtra(
+                            AppointmentDetailActivity.EXTRA_APPOINTMENT_ID,
+                            appointment.appointmentId
+                        )
                     })
                 },
                 onCancelClick = { appointment ->
                     showCancelConfirmationDialog(appointment)
                 }
             )
-            binding.rvDoctorAppointments.layoutManager = LinearLayoutManager(this)
-            binding.rvDoctorAppointments.adapter = adapter
+            binding.rvPatientAppointments.layoutManager = LinearLayoutManager(this)
+            binding.rvPatientAppointments.adapter = adapter
         }
     }
 
@@ -105,7 +96,7 @@ class DoctorHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             .setPositiveButton("Sí, Cancelar") { _, _ ->
                 appointmentDAO.cancelAppointment(appointment.appointmentId)
                 Toast.makeText(this, "Cita cancelada con éxito", Toast.LENGTH_SHORT).show()
-                setupRecyclerView()
+                setupRecyclerView() // Recargar la lista
             }
             .setNegativeButton("No", null)
             .show()
@@ -113,8 +104,9 @@ class DoctorHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_my_appointments_doctor -> binding.drawerLayout.closeDrawer(GravityCompat.START)
-            R.id.nav_logout_doctor -> SessionStore.logout(this)
+            R.id.nav_my_appointments -> binding.drawerLayout.closeDrawer(GravityCompat.START)
+            R.id.nav_book_appointment -> startActivity(Intent(this, ReservarCitaActivity::class.java))
+            R.id.nav_logout -> SessionStore.logout(this)
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true

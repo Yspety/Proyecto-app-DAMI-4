@@ -1,4 +1,4 @@
-package com.cibertec.clinicacitas
+package com.cibertec.clinicacitas.UI
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

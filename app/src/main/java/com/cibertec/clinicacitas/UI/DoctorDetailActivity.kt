@@ -1,4 +1,4 @@
-package com.cibertec.clinicacitas
+package com.cibertec.clinicacitas.UI
 
 import android.content.Intent
 import android.os.Bundle

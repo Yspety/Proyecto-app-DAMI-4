@@ -1,6 +1,5 @@
-package com.cibertec.clinicacitas
+package com.cibertec.clinicacitas.UI_adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cibertec.clinicacitas.Entidades.Usuario
+import com.cibertec.clinicacitas.R
 
 class UserAdapter(
     private val userList: List<Usuario>,

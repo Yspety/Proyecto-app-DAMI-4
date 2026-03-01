@@ -5,7 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import com.cibertec.clinicacitas.DataBase.AppDBHelper
 import com.cibertec.clinicacitas.Entidades.Usuario
-import com.cibertec.clinicacitas.SecurityUtils
+import com.cibertec.clinicacitas.Utils.SecurityUtils
 
 class UsuarioDAO(context: Context) {
 

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,31 +12,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClinicaCitas">
         <activity
-            android:name=".RegistroUsuarioActivity"
+            android:name=".UI.RegistroUsuarioActivity"
             android:exported="false" />
         <activity
-            android:name=".AppointmentDetailActivity"
+            android:name=".UI.AppointmentDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".AppointmentsActivity"
+            android:name=".UI.AppointmentsActivity"
             android:exported="false" />
         <activity
-            android:name=".ReservarCitaActivity"
+            android:name=".UI.ReservarCitaActivity"
             android:exported="false" />
         <activity
-            android:name=".DoctorDetailActivity"
+            android:name=".UI.DoctorDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".DoctorsActivity"
+            android:name=".UI.DoctorsActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminHomeActivity"
+            android:name=".UI.AdminHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".PacienteHomeActivity"
+            android:name=".UI.PacienteHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".UI.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,6 +44,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".Utils.NotificationReceiver"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

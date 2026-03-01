@@ -1,9 +1,8 @@
-package com.cibertec.clinicacitas
+package com.cibertec.clinicacitas.UI
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.ArrayAdapter
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -12,6 +11,9 @@ import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cibertec.clinicacitas.DAO.UsuarioDAO
 import com.cibertec.clinicacitas.Entidades.Usuario
+import com.cibertec.clinicacitas.R
+import com.cibertec.clinicacitas.Utils.SessionStore
+import com.cibertec.clinicacitas.UI_adapter.UserAdapter
 import com.cibertec.clinicacitas.databinding.ActivityAdminHomeBinding
 import com.google.android.material.navigation.NavigationView
 
@@ -64,7 +66,8 @@ class AdminHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
     private fun setupRecyclerView() {
         val userList = usuarioDAO.getAllUsers()
-        val userAdapter = UserAdapter(userList,
+        val userAdapter = UserAdapter(
+            userList,
             onEditClick = { user -> showEditRoleDialog(user) },
             onDeleteClick = { user -> showDeleteConfirmationDialog(user) }
         )
@@ -107,7 +110,12 @@ class AdminHomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             R.id.nav_doctors -> startActivity(Intent(this, DoctorsActivity::class.java))
             // CORREGIDO: El botón ahora abre la nueva AppointmentsActivity
             R.id.nav_appointments -> startActivity(Intent(this, AppointmentsActivity::class.java))
-            R.id.nav_register_user -> startActivity(Intent(this, RegistroUsuarioActivity::class.java))
+            R.id.nav_register_user -> startActivity(
+                Intent(
+                    this,
+                    RegistroUsuarioActivity::class.java
+                )
+            )
             R.id.nav_logout -> SessionStore.logout(this)
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)

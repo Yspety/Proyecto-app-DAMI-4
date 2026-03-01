@@ -5,7 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.cibertec.clinicacitas.SecurityUtils
+import com.cibertec.clinicacitas.Utils.SecurityUtils
 
 class AppDBHelper(context: Context) : SQLiteOpenHelper(context, "app.db", null, 6) {
 
@@ -51,7 +51,7 @@ class AppDBHelper(context: Context) : SQLiteOpenHelper(context, "app.db", null, 
     }
 
     private fun insertInitialData(db: SQLiteDatabase) {
-        // --- 1. Crear Especialidades ---
+
         db.execSQL("INSERT INTO specialty(id, name) VALUES(1, 'Medicina General')")
         db.execSQL("INSERT INTO specialty(id, name) VALUES(2, 'Pediatría')")
         db.execSQL("INSERT INTO specialty(id, name) VALUES(3, 'Cardiología')")
@@ -61,7 +61,6 @@ class AppDBHelper(context: Context) : SQLiteOpenHelper(context, "app.db", null, 
         val medicoUserId = insertUser(db, "medico", "medico123", "medico")
         insertUser(db, "usuario", "usuario123", "usuario")
 
-        // --- 3. Crear Perfil de Doctor (de forma 100% segura) ---
         var medicoDoctorId: Long = -1
         if (medicoUserId != -1L) {
             val doctorValues = ContentValues().apply {
@@ -74,7 +73,7 @@ class AppDBHelper(context: Context) : SQLiteOpenHelper(context, "app.db", null, 
             medicoDoctorId = db.insert("doctor", null, doctorValues)
         }
 
-        // --- 4. Crear Citas para el Doctor (de forma segura) ---
+
         if (medicoDoctorId != -1L) {
             val appointment1 = ContentValues().apply {
                 put("patientName", "Juan Pérez")

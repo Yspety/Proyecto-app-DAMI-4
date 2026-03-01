@@ -1,4 +1,4 @@
-package com.cibertec.clinicacitas
+package com.cibertec.clinicacitas.UI
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cibertec.clinicacitas.UI_adapter.AppointmentAdapter
 import com.cibertec.clinicacitas.DAO.AppointmentDAO
 import com.cibertec.clinicacitas.Entidades.AppointmentInfo
 import com.cibertec.clinicacitas.databinding.ActivityAppointmentsBinding
@@ -29,10 +30,14 @@ class AppointmentsActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         val appointmentList = appointmentDAO.getAllAppointmentInfo()
-        val adapter = AppointmentAdapter(appointmentList,
+        val adapter = AppointmentAdapter(
+            appointmentList,
             onClick = { appointment ->
                 startActivity(Intent(this, AppointmentDetailActivity::class.java).apply {
-                    putExtra(AppointmentDetailActivity.EXTRA_APPOINTMENT_ID, appointment.appointmentId)
+                    putExtra(
+                        AppointmentDetailActivity.EXTRA_APPOINTMENT_ID,
+                        appointment.appointmentId
+                    )
                 })
             },
             onCancelClick = { appointment ->

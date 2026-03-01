@@ -1,4 +1,4 @@
-package com.cibertec.clinicacitas
+package com.cibertec.clinicacitas.Utils
 
 import java.security.MessageDigest
 import java.security.SecureRandom

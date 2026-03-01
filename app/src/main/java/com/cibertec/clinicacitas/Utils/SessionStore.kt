@@ -1,10 +1,11 @@
-package com.cibertec.clinicacitas
+package com.cibertec.clinicacitas.Utils
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import com.cibertec.clinicacitas.Entidades.Usuario
+import com.cibertec.clinicacitas.UI.LoginActivity
 
 object SessionStore {
     var currentUser: Usuario? = null

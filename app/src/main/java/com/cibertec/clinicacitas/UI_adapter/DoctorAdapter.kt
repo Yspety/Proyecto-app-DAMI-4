@@ -1,4 +1,4 @@
-package com.cibertec.clinicacitas
+package com.cibertec.clinicacitas.UI_adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +8,7 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cibertec.clinicacitas.Entidades.DoctorInfo
+import com.cibertec.clinicacitas.R
 
 class DoctorAdapter(
     private val doctorList: List<DoctorInfo>,

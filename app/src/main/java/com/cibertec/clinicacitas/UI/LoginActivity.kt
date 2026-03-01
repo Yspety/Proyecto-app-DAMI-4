@@ -1,4 +1,4 @@
-package com.cibertec.clinicacitas
+package com.cibertec.clinicacitas.UI
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,7 +8,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.cibertec.clinicacitas.DAO.UsuarioDAO
-import com.cibertec.clinicacitas.Entidades.Usuario
+import com.cibertec.clinicacitas.R
+import com.cibertec.clinicacitas.Utils.SessionStore
 import kotlin.concurrent.thread
 
 class LoginActivity : AppCompatActivity() {
@@ -60,7 +61,8 @@ class LoginActivity : AppCompatActivity() {
                 runOnUiThread {
                     btnLogin.isEnabled = true
                     if (usuario == null) {
-                        Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT)
+                            .show()
                     } else {
                         // Guardar el usuario en el SessionStore
                         SessionStore.currentUser = usuario

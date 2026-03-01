@@ -1,4 +1,4 @@
-package com.cibertec.clinicacitas
+package com.cibertec.clinicacitas.UI
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cibertec.clinicacitas.DAO.DoctorDAO
 import com.cibertec.clinicacitas.DAO.EspecialidadDAO
+import com.cibertec.clinicacitas.UI_adapter.DoctorAdapter
 import com.cibertec.clinicacitas.Entidades.DoctorInfo
+import com.cibertec.clinicacitas.R
 import com.cibertec.clinicacitas.databinding.ActivityDoctorsBinding
 
 class DoctorsActivity : AppCompatActivity() {
@@ -47,7 +49,8 @@ class DoctorsActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         val doctorList = doctorDAO.getAllDoctorInfo()
 
-        val adapter = DoctorAdapter(doctorList,
+        val adapter = DoctorAdapter(
+            doctorList,
             onItemClick = { doctor ->
                 val i = Intent(this, DoctorDetailActivity::class.java).apply {
                     putExtra(DoctorDetailActivity.EXTRA_DOCTOR_ID, doctor.doctorId)
